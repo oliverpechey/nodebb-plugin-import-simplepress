@@ -89,8 +89,8 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'users.user_login as _username, ' +
 			prefix + 'users.display_name as _alternativeUsername, ' +
 			prefix + 'users.user_email as _email, ' +
-			prefix + 'users.user_registered as _joindate ' +
-			prefix + 'sfmembers.signature as _signature ' +
+			prefix + 'users.user_registered as _joindate, ' +
+			prefix + 'sfmembers.signature as _signature, ' +
 			prefix + 'sfmembers.lastvisit as _lastonline' +
 			' FROM ' + prefix + 'users ' +
 			' LEFT JOIN ' + prefix + 'sfmembers ON ' + prefix + 'sfmembers.user_id = ' + prefix + 'users.ID ' +
