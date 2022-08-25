@@ -89,9 +89,9 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'users.user_login as _username, ' +
 			prefix + 'users.display_name as _alternativeUsername, ' +
 			prefix + 'users.user_email as _email, ' +
-			prefix + 'users.user_registered as _joindate, ' +
+			'UNIX_TIMESTAMP(' + prefix + 'users.user_registered as _joindate, ' +
 			prefix + 'sfmembers.signature as _signature, ' +
-			prefix + 'sfmembers.lastvisit as _lastonline' +
+			'UNIX_TIMESTAMP(' + prefix + 'sfmembers.lastvisit as _lastonline' +
 			' FROM ' + prefix + 'users ' +
 			' LEFT JOIN ' + prefix + 'sfmembers ON ' + prefix + 'sfmembers.user_id = ' + prefix + 'users.ID ' +
 			' WHERE 1 = 1 ' +
@@ -105,9 +105,6 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 				//normalize here
 				var map = {};
 				rows.forEach(function(row) {
-					// from unix timestamp (s) to JS timestamp (ms)
-					row._joindate = (row._joindate || 0) * 1000
-					row._lastposttime = ((row._lastposttime || 0) * 1000)
 					// lower case the email for consistency
 					row._email = (row._email || '')
 						.toLowerCase();
@@ -128,7 +125,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sfpmmessages.message_id as _mid, ' +
 			prefix + 'sfpmmessages.user_id as _fromuid, ' +
 			prefix + 'sfpmrecipients.user_id as _touid, ' +
-			prefix + 'sfpmmessages.message as _content, ' +
+			'UNIX_TIMESTAMP(' + prefix + 'sfpmmessages.message as _content, ' +
 			prefix + 'sfpmmessages.sent_date as _timestamp ' +
 			'FROM ' + prefix + 'sfpmmessages ' +
 			'LEFT JOIN ' + prefix + 'sfpmrecipients ON ' + prefix + 'sfpmmessages.message_id = ' + prefix + 'sfpmrecipients.message_id' +
@@ -143,7 +140,6 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 				//normalize here
 				var map = {};
 				rows.forEach(function(row) {
-					row._timestamp = ((row._timestamp || 0) * 1000);
 					map[row._mid] = row;
 				});
 				callback(null, map);
@@ -203,7 +199,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sftopics.user_id as _uid, ' +
 			prefix + 'sftopics.topic_opened as _viewcount, ' +
 			prefix + 'sftopics.topic_name as _title, ' +
-			prefix + 'sftopics.topic_date as _timestamp, ' +
+			'UNIX_TIMESTAMP(' + prefix + 'sftopics.topic_date) as _timestamp, ' +
 			prefix + 'sftopics.topic_status as _locked, ' +
 			prefix + 'sfposts.post_content as _content, ' +
 			prefix + 'sfposts.poster_ip as _ip, ' +
@@ -222,7 +218,6 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 				var map = {};
 				rows.forEach(function(row, i) {
 					row._title = row._title ? row._title[0].toUpperCase() + row._title.substr(1) : 'Untitled';
-					row._timestamp = ((row._timestamp || 0) * 1000) || startms;
 					map[row._tid] = row;
 				});
 				callback(null, map, rows);
@@ -236,13 +231,12 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 	Exporter.getPaginatedPosts = function(start, limit, callback) {
 		callback = !_.isFunction(callback) ? noop : callback;
 		var prefix = Exporter.config('prefix');
-		var startms = +new Date();
 		var query =
 			'SELECT ' +
 			prefix + 'sfposts.forum_id + 99 as _cid, ' +
 			prefix + 'sfposts.topic_id as _tid, ' +
 			prefix + 'sfposts.post_id as _pid, ' +
-			prefix + 'sfposts.post_date as _timestamp, ' +
+			'UNIX_TIMESTAMP(' + prefix + 'sfposts.post_date as _timestamp, ' +
 			prefix + 'sfposts.post_content as _content, ' +
 			prefix + 'sfposts.user_id as _uid, ' +
 			prefix + 'sfposts.guest_name as _guest ' +
@@ -259,7 +253,6 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 				var map = {};
 				rows.forEach(function(row) {
 					row._content = row._content || '';
-					row._timestamp = ((row._timestamp || 0) * 1000) || startms;
 					row._deleted = row._deleted ? 1 : 0
 					row._edited = row._edited ? row._edited * 1000 : null
 
