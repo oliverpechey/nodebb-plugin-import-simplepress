@@ -85,7 +85,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 		var prefix = Exporter.config('prefix');
 		var query = 'SELECT ' +
 			prefix + 'users.ID as _uid, ' +
-			prefix + 'users.user_email as _email ' +
+			prefix + 'users.user_email as _email, ' +
 			prefix + 'users.user_login as _username, ' +
 			prefix + 'users.display_name as _alternativeUsername, ' +
 			prefix + 'users.user_email as _email, ' +
