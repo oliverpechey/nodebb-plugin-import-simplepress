@@ -169,7 +169,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sfforums.forum_id as _cid, ' +
 			prefix + 'sfforums.group_id as _parentCid, ' +
 			prefix + 'sfforums.forum_name as _name, ' +
-			prefix + 'sfforums.forum_seq as _order' +
+			prefix + 'sfforums.forum_seq as _order ' +
 			prefix + 'sfforums.forum_desc as _description ' +
 			'FROM ' + prefix + 'sfforums ' +
 			(start >= 0 && limit >= 0 ? 'LIMIT ' + start + ',' + limit : '');
