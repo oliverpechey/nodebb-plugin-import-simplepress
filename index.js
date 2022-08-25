@@ -131,7 +131,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sfpmmessages.message as _content, ' +
 			prefix + 'sfpmmessages.sent_date as _timestamp ' +
 			'FROM ' + prefix + 'sfpmmessages ' +
-			'LEFT JOIN ' + prefix + 'sfpmrecipients ON' + prefix + 'sfpmmessages.message_id = ' + prefix + 'sfpmrecipients.message_id' +
+			'LEFT JOIN ' + prefix + 'sfpmrecipients ON ' + prefix + 'sfpmmessages.message_id = ' + prefix + 'sfpmrecipients.message_id' +
 			' WHERE 1 = 1 ' +
 			(start >= 0 && limit >= 0 ? ' LIMIT ' + start + ',' + limit : '');
 		Exporter.query(query,
