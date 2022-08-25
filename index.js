@@ -209,7 +209,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sfposts.poster_ip as _ip, ' +
 			prefix + 'sfposts.guest_name as _guest ' +
 			' FROM ' + prefix + 'sftopics' +
-			' LEFT JOIN ' + prefix + 'posts ON ' + prefix + 'sftopics.topic_id = ' + prefix + 'sfposts.topic_id and ' +
+			' LEFT JOIN ' + prefix + 'sfposts ON ' + prefix + 'sftopics.topic_id = ' + prefix + 'sfposts.topic_id and ' +
 			prefix + 'sfposts.post_index = 1' +
 			(start >= 0 && limit >= 0 ? 'LIMIT ' + start + ',' + limit : '');
 		Exporter.query(query,
