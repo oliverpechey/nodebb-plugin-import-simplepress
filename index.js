@@ -165,7 +165,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			'null as _description ' +
 			'FROM ' + prefix + 'sfgroups ' +
 			'UNION SELECT ' +
-			prefix + 'sfforums.forum_id as _cid, ' +
+			prefix + 'sfforums.forum_id + 99 as _cid, ' +
 			prefix + 'sfforums.group_id as _parentCid, ' +
 			prefix + 'sfforums.forum_name as _name, ' +
 			prefix + 'sfforums.forum_seq as _order, ' +
@@ -198,7 +198,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 		var startms = +new Date();
 		var query =
 			'SELECT ' +
-			prefix + 'sftopics.forum_id as _cid, ' +
+			prefix + 'sftopics.forum_id + 99 as _cid, ' +
 			prefix + 'sftopics.topic_id as _tid, ' +
 			prefix + 'sftopics.user_id as _uid, ' +
 			prefix + 'sftopics.topic_opened as _viewcount, ' +
@@ -239,7 +239,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 		var startms = +new Date();
 		var query =
 			'SELECT ' +
-			prefix + 'sfposts.forum_id as _cid, ' +
+			prefix + 'sfposts.forum_id + 99 as _cid, ' +
 			prefix + 'sfposts.topic_id as _tid, ' +
 			prefix + 'sfposts.post_id as _pid, ' +
 			prefix + 'sfposts.post_date as _timestamp, ' +
@@ -262,6 +262,11 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 					row._timestamp = ((row._timestamp || 0) * 1000) || startms;
 					row._deleted = row._deleted ? 1 : 0
 					row._edited = row._edited ? row._edited * 1000 : null
+
+                    // It skips the post if the uid is 0. Use guest name instead.
+                    if(row._uid == 0)
+                        delete row._uid
+
 					map[row._pid] = row;
 				});
 				callback(null, map);
