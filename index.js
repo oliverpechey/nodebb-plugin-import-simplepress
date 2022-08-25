@@ -163,7 +163,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'null as _parentCid, ' +
 			prefix + 'sfgroups.group_name as _name, ' +
 			prefix + 'sfgroups.group_seq as _order' +
-			prefix + 'null as _description' +
+			prefix + 'null as _description ' +
 			'FROM ' + prefix + 'sfgroups ' +
 			'UNION SELECT ' +
 			prefix + 'sfforums.forum_id as _cid, ' +
