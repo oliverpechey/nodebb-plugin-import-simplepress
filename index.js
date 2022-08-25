@@ -58,7 +58,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 		}, 60000);
 		callback(null, Exporter.config());
 	};
-    
+
 	Exporter.query = function(query, callback) {
 		if (!Exporter.connection) {
 			var err = {
@@ -85,12 +85,12 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 		var prefix = Exporter.config('prefix');
 		var query = 'SELECT ' +
 			prefix + 'users.ID as _uid, ' +
-			prefix + 'users.user_email as _email' +
+			prefix + 'users.user_email as _email ' +
 			prefix + 'users.user_login as _username, ' +
 			prefix + 'users.display_name as _alternativeUsername, ' +
 			prefix + 'users.user_email as _email, ' +
 			prefix + 'users.user_registered as _joindate ' +
-			prefix + 'sfmembers.signature as _signature' +
+			prefix + 'sfmembers.signature as _signature ' +
 			prefix + 'sfmembers.lastvisit as _lastonline' +
 			' FROM ' + prefix + 'users ' +
 			' LEFT JOIN ' + prefix + 'sfmembers ON ' + prefix + 'sfmembers.user_id = ' + prefix + 'users.ID ' +
@@ -170,7 +170,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sfforums.group_id as _parentCid, ' +
 			prefix + 'sfforums.forum_name as _name, ' +
 			prefix + 'sfforums.forum_seq as _order' +
-			prefix + 'sfforums.forum_desc as _description' +
+			prefix + 'sfforums.forum_desc as _description ' +
 			'FROM ' + prefix + 'sfforums ' +
 			(start >= 0 && limit >= 0 ? 'LIMIT ' + start + ',' + limit : '');
 		Exporter.query(query,
