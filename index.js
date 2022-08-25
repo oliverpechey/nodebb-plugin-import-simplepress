@@ -157,13 +157,12 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 	Exporter.getPaginatedCategories = function(start, limit, callback) {
 		callback = !_.isFunction(callback) ? noop : callback;
 		var prefix = Exporter.config('prefix');
-		var startms = +new Date();
 		var query = 'SELECT ' +
 			prefix + 'sfgroups.group_id as _cid, ' +
-			prefix + 'null as _parentCid, ' +
+			'null as _parentCid, ' +
 			prefix + 'sfgroups.group_name as _name, ' +
 			prefix + 'sfgroups.group_seq as _order ' +
-			prefix + 'null as _description ' +
+			'null as _description ' +
 			'FROM ' + prefix + 'sfgroups ' +
 			'UNION SELECT ' +
 			prefix + 'sfforums.forum_id as _cid, ' +
