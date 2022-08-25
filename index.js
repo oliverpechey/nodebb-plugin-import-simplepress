@@ -114,6 +114,42 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			});
 	};
 
+    Exporter.getRooms = function(callback) {
+        return Exporter.getPaginatedRooms(0, -1, callback);
+    };
+    Exporter.getPaginatedRooms = function(start, limit, callback) {
+        callback = !_.isFunction(callback) ? noop : callback;
+
+        var prefix = Exporter.config('prefix');
+        var query =
+            'SELECT ' +
+            't.thread_id as _roomId, ' +
+            'r.user_id as _uid, ' +
+            'm.user_id as _uids, ' +
+            'UNIX_TIMESTAMP(sent_date) * 1000 as _timestamp' +
+            'FROM ' + prefix + 'sfpmthreads t ' +
+            'join ' + prefix + 'sfpmmessages m on m.message_id = (select m2.message_id from ' + prefix + 'sfpmmessages m2 where m2.thread_id = t.thread_id order by m2.message_id asc LIMIT 1) ' +
+            'join ' + prefix + 'sfpmrecipients r on m.message_id = r.message_id and r.user_id != m.user_id ' +
+            (start >= 0 && limit >= 0 ? 'LIMIT ' + start + ',' + limit : '');
+    
+            Exporter.query(query,
+                function(err, rows) {
+                    if (err) {
+                        Exporter.error(err);
+                        return callback(err);
+                    }
+    
+                    //normalize here
+                    var map = {};
+    
+                    rows.forEach(function(row) {
+                        map[row._roomId] = row;
+                    });
+    
+                    callback(null, map);
+                });
+    };
+
 	Exporter.getMessages = function(callback) {
 		return Exporter.getPaginatedMessages(0, -1, callback);
 	};
@@ -281,6 +317,9 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			function(next) {
 				Exporter.getUsers(next);
 			},
+            function(next) {
+                Exporter.getRooms(next);
+            },
 			function(next) {
 				Exporter.getMessages(next);
 			},
@@ -307,6 +346,9 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			function(next) {
 				Exporter.getPaginatedUsers(0, 1000, next);
 			},
+            function(next) {
+                Exporter.getPaginatedRooms(0,1000, next);
+            },
 			function(next) {
 				Exporter.getPaginatedMessages(0, 1000, next);
 			},
