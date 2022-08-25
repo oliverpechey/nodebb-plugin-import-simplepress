@@ -89,9 +89,9 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'users.user_login as _username, ' +
 			prefix + 'users.display_name as _alternativeUsername, ' +
 			prefix + 'users.user_email as _email, ' +
-			'UNIX_TIMESTAMP(' + prefix + 'users.user_registered) as _joindate, ' +
+			'UNIX_TIMESTAMP(' + prefix + 'users.user_registered) * 1000 as _joindate, ' +
 			prefix + 'sfmembers.signature as _signature, ' +
-			'UNIX_TIMESTAMP(' + prefix + 'sfmembers.lastvisit) as _lastonline' +
+			'UNIX_TIMESTAMP(' + prefix + 'sfmembers.lastvisit) * 1000 as _lastonline' +
 			' FROM ' + prefix + 'users ' +
 			' LEFT JOIN ' + prefix + 'sfmembers ON ' + prefix + 'sfmembers.user_id = ' + prefix + 'users.ID ' +
 			' WHERE 1 = 1 ' +
@@ -125,7 +125,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sfpmmessages.message_id as _mid, ' +
 			prefix + 'sfpmmessages.user_id as _fromuid, ' +
 			prefix + 'sfpmrecipients.user_id as _touid, ' +
-			'UNIX_TIMESTAMP(' + prefix + 'sfpmmessages.message) as _content, ' +
+			'UNIX_TIMESTAMP(' + prefix + 'sfpmmessages.message) * 1000 as _content, ' +
 			prefix + 'sfpmmessages.sent_date as _timestamp ' +
 			'FROM ' + prefix + 'sfpmmessages ' +
 			'LEFT JOIN ' + prefix + 'sfpmrecipients ON ' + prefix + 'sfpmmessages.message_id = ' + prefix + 'sfpmrecipients.message_id' +
@@ -199,7 +199,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sftopics.user_id as _uid, ' +
 			prefix + 'sftopics.topic_opened as _viewcount, ' +
 			prefix + 'sftopics.topic_name as _title, ' +
-			'UNIX_TIMESTAMP(' + prefix + 'sftopics.topic_date) as _timestamp, ' +
+			'UNIX_TIMESTAMP(' + prefix + 'sftopics.topic_date) * 1000 as _timestamp, ' +
 			prefix + 'sftopics.topic_status as _locked, ' +
 			prefix + 'sfposts.post_content as _content, ' +
 			prefix + 'sfposts.poster_ip as _ip, ' +
@@ -236,7 +236,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sfposts.forum_id + (select count(*) from wp_sfgroups) as _cid, ' +
 			prefix + 'sfposts.topic_id as _tid, ' +
 			prefix + 'sfposts.post_id as _pid, ' +
-			'UNIX_TIMESTAMP(' + prefix + 'sfposts.post_date) as _timestamp, ' +
+			'UNIX_TIMESTAMP(' + prefix + 'sfposts.post_date) * 1000 as _timestamp, ' +
 			prefix + 'sfposts.post_content as _content, ' +
 			prefix + 'sfposts.user_id as _uid, ' +
 			prefix + 'sfposts.guest_name as _guest ' +
