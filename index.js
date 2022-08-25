@@ -205,9 +205,9 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sftopics.topic_name as _title, ' +
 			prefix + 'sftopics.topic_date as _timestamp, ' +
 			prefix + 'sftopics.topic_status as _locked, ' +
-			prefix + 'sftopics.post_content as _content, ' +
-			prefix + 'sftopics.poster_ip as _ip, ' +
-			prefix + 'sftopics.guest_name as _guest ' +
+			prefix + 'sfposts.post_content as _content, ' +
+			prefix + 'sfposts.poster_ip as _ip, ' +
+			prefix + 'sfposts.guest_name as _guest ' +
 			' FROM ' + prefix + 'sftopics' +
 			' LEFT JOIN ' + prefix + 'posts ON ' + prefix + 'sftopics.topic_id = ' + prefix + 'sfposts.topic_id and ' +
 			prefix + 'sfposts.post_index = 1' +
