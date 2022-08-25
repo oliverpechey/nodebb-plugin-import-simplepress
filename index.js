@@ -126,7 +126,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
             't.thread_id as _roomId, ' +
             'r.user_id as _uid, ' +
             'm.user_id as _uids, ' +
-            'UNIX_TIMESTAMP(sent_date) * 1000 as _timestamp' +
+            'UNIX_TIMESTAMP(sent_date) * 1000 as _timestamp ' +
             'FROM ' + prefix + 'sfpmthreads t ' +
             'join ' + prefix + 'sfpmmessages m on m.message_id = (select m2.message_id from ' + prefix + 'sfpmmessages m2 where m2.thread_id = t.thread_id order by m2.message_id asc LIMIT 1) ' +
             'join ' + prefix + 'sfpmrecipients r on m.message_id = r.message_id and r.user_id != m.user_id ' +
