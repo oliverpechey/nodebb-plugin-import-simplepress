@@ -161,7 +161,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			'null as _description ' +
 			'FROM ' + prefix + 'sfgroups ' +
 			'UNION SELECT ' +
-			prefix + 'sfforums.forum_id + 99 as _cid, ' +
+			prefix + 'sfforums.forum_id + (select count(*) from wp_sfgroups) as _cid, ' +
 			prefix + 'sfforums.group_id as _parentCid, ' +
 			prefix + 'sfforums.forum_name as _name, ' +
 			prefix + 'sfforums.forum_seq as _order, ' +
@@ -194,7 +194,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 		var startms = +new Date();
 		var query =
 			'SELECT ' +
-			prefix + 'sftopics.forum_id + 99 as _cid, ' +
+			prefix + 'sftopics.forum_id + (select count(*) from wp_sfgroups) as _cid, ' +
 			prefix + 'sftopics.topic_id as _tid, ' +
 			prefix + 'sftopics.user_id as _uid, ' +
 			prefix + 'sftopics.topic_opened as _viewcount, ' +
@@ -233,7 +233,7 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 		var prefix = Exporter.config('prefix');
 		var query =
 			'SELECT ' +
-			prefix + 'sfposts.forum_id + 99 as _cid, ' +
+			prefix + 'sfposts.forum_id + (select count(*) from wp_sfgroups) as _cid, ' +
 			prefix + 'sfposts.topic_id as _tid, ' +
 			prefix + 'sfposts.post_id as _pid, ' +
 			'UNIX_TIMESTAMP(' + prefix + 'sfposts.post_date) as _timestamp, ' +
