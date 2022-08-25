@@ -161,14 +161,14 @@ var logPrefix = '[nodebb-plugin-import-simplepress]';
 			prefix + 'sfgroups.group_id as _cid, ' +
 			'null as _parentCid, ' +
 			prefix + 'sfgroups.group_name as _name, ' +
-			prefix + 'sfgroups.group_seq as _order ' +
+			prefix + 'sfgroups.group_seq as _order, ' +
 			'null as _description ' +
 			'FROM ' + prefix + 'sfgroups ' +
 			'UNION SELECT ' +
 			prefix + 'sfforums.forum_id as _cid, ' +
 			prefix + 'sfforums.group_id as _parentCid, ' +
 			prefix + 'sfforums.forum_name as _name, ' +
-			prefix + 'sfforums.forum_seq as _order ' +
+			prefix + 'sfforums.forum_seq as _order, ' +
 			prefix + 'sfforums.forum_desc as _description ' +
 			'FROM ' + prefix + 'sfforums ' +
 			(start >= 0 && limit >= 0 ? 'LIMIT ' + start + ',' + limit : '');
